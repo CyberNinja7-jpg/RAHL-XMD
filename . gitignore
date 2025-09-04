@@ -1,0 +1,27 @@
+# Session data - CRITICAL to exclude
+sessions/
+*.session.json
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+
+# Runtime data and cache
+tmp/
+temp/
+.cache/
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
