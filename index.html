@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lord Rahl - Master of Shadows</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0f17 0%, #05070c 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            width: 100%;
+            border-bottom: 2px solid #6c5ce7;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #6c5ce7;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(108, 92, 231, 0.7);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #a29bfe;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #151925;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .stat-title {
+            font-size: 1rem;
+            color: #a29bfe;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6c5ce7;
+        }
+        
+        .command-stats {
+            background: #151925;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .command-title {
+            font-size: 1.2rem;
+            color: #6c5ce7;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .command-list {
+            list-style-type: none;
+        }
+        
+        .command-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #252a3a;
+            display: flex;
+            align-items: center;
+        }
+        
+        .command-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .command-list i {
+            margin-right: 10px;
+            color: #6c5ce7;
+        }
+        
+        .pairing-section {
+            background: #151925;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #6c5ce7;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #d8d8d8;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #3e445b;
+            background: #252a3a;
+            color: #fff;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #6c5ce7;
+            outline: none;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #6c5ce7, #8c7ae6);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #5d4ae1, #7c6ae6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .command-category {
+            background: #151925;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .category-title {
+            font-size: 1.2rem;
+            color: #6c5ce7;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid #252a3a;
+            padding-bottom: 10px;
+        }
+        
+        .command-item {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .command-item i {
+            margin-right: 10px;
+            color: #a29bfe;
+            width: 20px;
+        }
+        
+        .owner-section {
+            background: #151925;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #5c6bc0;
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid #252a3a;
+            width: 100%;
+        }
+        
+        .code-display {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #6c5ce7;
+            background: #252a3a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid,
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">LORD RAHL</div>
+            <div class="tagline">Master of Shadows - WhatsApp Bot Empire</div>
+            <p>The shadows rise... Lord Rahl has awakened to command the digital realm. Deploy your dark legion across WhatsApp and rule with absolute power.</p>
+        </header>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Active Bots</div>
+                <div class="stat-value">1</div>
+                <div class="stat-desc">Shadows prowling the realm</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Total Users</div>
+                <div class="stat-value">0</div>
+                <div class="stat-desc">Mortals under dominion</div>
+            </div>
+        </div>
+        
+        <div class="command-stats">
+            <div class="command-title">Commands Executed</div>
+            <ul class="command-list">
+                <li><i class="fas fa-terminal"></i> Dark incantations cast: <strong>0</strong></li>
+                <li><i class="fas fa-clock"></i> Uptime: <strong>00:00:00</strong></li>
+                <li><i class="fas fa-hourglass"></i> Hours of unwavering vigil: <strong>0</strong></li>
+            </ul>
+        </div>
+        
+        <div class="pairing-section">
+            <h2 class="section-title">Pairing</h2>
+            <p style="text-align: center; margin-bottom: 20px;">
+                <i class="fas fa-check-circle" style="color: #6c5ce7;"></i> 
+                <strong>WhatsApp Pairing Ritual</strong><br>
+                Bind your mortal device to the realm of Lord Rahl...
+            </p>
+            
+            <div class="form-group">
+                <label for="phone-number">Your Phone Number</label>
+                <input type="text" id="phone-number" placeholder="e.g., +254112399557 (Include country code)">
+            </div>
+            
+            <button class="btn" id="generate-btn">
+                <i class="fas fa-qrcode"></i> Generate Pairing Code
+            </button>
+            
+            <div class="code-display" id="pairing-code"></div>
+        </div>
+        
+        <h2 class="section-title">Dark Incantations (Commands)</h2>
+        
+        <div class="commands-grid">
+            <div class="command-category">
+                <h3 class="category-title">General Commands</h3>
+                <div class="command-item"><i class="fas fa-question"></i> help - View all commands</div>
+                <div class="command-item"><i class="fas fa-bell"></i> ping - Check bot response</div>
+                <div class="command-item"><i class="fas fa-crown"></i> owner - Show owner info</div>
+                <div class="command-item"><i class="fas fa-chart-bar"></i> status - Bot status</div>
+            </div>
+            
+            <div class="command-category">
+                <h3 class="category-title">Entertainment</h3>
+                <div class="command-item"><i class="fas fa-image"></i> sticker - Create sticker</div>
+                <div class="command-item"><i class="fas fa-laugh"></i> joke - Dark humor</div>
+                <div class="command-item"><i class="fas fa-quote-right"></i> quote - Mystical wisdom</div>
+                <div class="command-item"><i class="fas fa-photo-video"></i> meme - Generate meme</div>
+            </div>
+        </div>
+        
+        <div class="owner-section">
+            <h2 class="section-title">Owner Only</h2>
+            <div class="commands-grid">
+                <div class="command-item"><i class="fas fa-power-off"></i> .shutdown - Stop the bot</div>
+                <div class="command-item"><i class="fas fa-sync"></i> restart - Reboot system</div>
+                <div class="command-item"><i class="fas fa-code"></i> eval - Execute code</div>
+                <div class="command-item"><i class="fas fa-bullhorn"></i> broadcast - Mass message</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>X. Built with the power of shadows and ancient knowledge.</p>
+        <p>Lord Rahl Bot © 2024 : Rule the digital realm with absolute power</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateBtn = document.getElementById('generate-btn');
+            const pairingCodeDisplay = document.getElementById('pairing-code');
+            const phoneNumberInput = document.getElementById('phone-number');
+            
+            generateBtn.addEventListener('click', function() {
+                const phoneNumber = phoneNumberInput.value.trim();
+                
+                if (!phoneNumber) {
+                    alert('Please enter your phone number first');
+                    return;
+                }
+                
+                if (!phoneNumber.startsWith('+')) {
+                    alert('Please include country code (e.g., +254 for Kenya)');
+                    return;
+                }
+                
+                // Generate random 8-digit code
+                const pairingCode = Math.floor(10000000 + Math.random() * 90000000);
+                
+                // Display the code
+                pairingCodeDisplay.textContent = pairingCode;
+                pairingCodeDisplay.style.display = 'block';
+                
+                // Simulate sending the code to the bot (in a real app, this would connect to your backend)
+                simulateCodeSubmission(phoneNumber, pairingCode);
+            });
+            
+            function simulateCodeSubmission(phoneNumber, code) {
+                // In a real implementation, this would send the code to your backend
+                // and the backend would communicate with your WhatsApp bot
+                
+                // For demonstration, we'll show a confirmation message
+                setTimeout(() => {
+                    alert(`Pairing code ${code} has been generated.\n\nSend "Lord Rahl ${code}" to +254112399557 on WhatsApp to complete the pairing.`);
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
