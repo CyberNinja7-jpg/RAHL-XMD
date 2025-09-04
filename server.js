@@ -1,22 +1,22 @@
 const express = require('express');
-const { create } = require('@whiskeysockets/baileys');
 const NodeCache = require('node-cache');
-const qrcode = require('qrcode-terminal');
-const fs = require('fs');
-const path = require('path');
+const SessionManager = require('./sessionManager');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// In-memory storage for pairing codes (use a database in production)
-const pairingCodes = new NodeCache({ stdTTL: 600 }); // 10 minutes expiration
+// In-memory storage for pairing codes
+const pairingCodes = new NodeCache({ stdTTL: 600 });
+
+// Initialize session manager
+const sessionManager = new SessionManager('lord-rahl-bot');
+
+// Store WhatsApp socket
+let sock = null;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public')); // Serve your frontend files
-
-// Store WhatsApp sessions
-let sessions = new Map();
+app.use(express.static('public'));
 
 // Generate pairing code endpoint
 app.post('/generate-code', (req, res) => {
@@ -41,7 +41,7 @@ app.post('/generate-code', (req, res) => {
     res.json({ code, expiresIn: 600 });
 });
 
-// Validate code endpoint (for your WhatsApp bot)
+// Validate code endpoint
 app.get('/validate-code/:code', (req, res) => {
     const { code } = req.params;
     const codeData = pairingCodes.get(code);
@@ -85,25 +85,54 @@ app.get('/pairing-status/:code', (req, res) => {
     res.json({ status: codeData.status });
 });
 
+// Get session status
+app.get('/session-status', async (req, res) => {
+    try {
+        const sessionInfo = sessionManager.getSessionInfo();
+        const hasValidSession = await sessionManager.hasValidSession();
+        
+        res.json({
+            hasValidSession,
+            sessionInfo,
+            isConnected: sock !== null
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Clear session endpoint
+app.post('/clear-session', async (req, res) => {
+    try {
+        const success = await sessionManager.clearSession();
+        sock = null;
+        res.json({ success });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Initialize WhatsApp bot
 async function initWhatsAppBot() {
     try {
-        const sessionId = 'lord-rahl-bot';
-        const { state, saveCreds } = await useMultiFileAuthState(sessionId);
+        // Check if we have a valid session first
+        const hasValidSession = await sessionManager.hasValidSession();
         
-        const sock = makeWASocket({
-            version: [2, 2323, 4],
-            printQRInTerminal: true,
-            auth: state,
-            browser: ['Lord Rahl Bot', 'Chrome', '1.0.0']
-        });
+        if (hasValidSession) {
+            console.log('Found valid session, reconnecting...');
+        } else {
+            console.log('No valid session found, generating new QR code...');
+        }
         
-        // Save credentials when updated
-        sock.ev.on('creds.update', saveCreds);
+        sock = await sessionManager.createSocket();
         
         // Handle connection updates
         sock.ev.on('connection.update', (update) => {
-            const { connection, lastDisconnect } = update;
+            const { connection, lastDisconnect, qr } = update;
+            
+            if (qr) {
+                console.log('QR code received, scan with WhatsApp');
+            }
             
             if (connection === 'close') {
                 const shouldReconnect = 
@@ -118,7 +147,7 @@ async function initWhatsAppBot() {
                 );
                 
                 if (shouldReconnect) {
-                    initWhatsAppBot();
+                    setTimeout(() => initWhatsAppBot(), 3000);
                 }
             } else if (connection === 'open') {
                 console.log('WhatsApp bot connected successfully!');
@@ -158,7 +187,6 @@ async function initWhatsAppBot() {
             }
         });
         
-        sessions.set(sessionId, sock);
         return sock;
         
     } catch (error) {
@@ -178,11 +206,14 @@ function extractMessageText(message) {
 }
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Lord Rahl pairing server running on port ${PORT}`);
-    initWhatsAppBot().then(() => {
+    try {
+        await initWhatsAppBot();
         console.log('WhatsApp bot initialized');
-    }).catch(console.error);
+    } catch (error) {
+        console.error('Failed to initialize WhatsApp bot:', error);
+    }
 });
 
 module.exports = app;
