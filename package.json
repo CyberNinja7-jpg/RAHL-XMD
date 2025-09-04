@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "build": "echo 'No build step required'",
     "clear-session": "rm -rf sessions"
   },
   "dependencies": {
@@ -24,5 +25,8 @@
     "pairing"
   ],
   "author": "Lord Rahl",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }
