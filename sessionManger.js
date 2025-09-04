@@ -50,7 +50,7 @@ class SessionManager {
         try {
             const files = fs.readdirSync(this.sessionPath);
             // Check if we have the necessary credential files
-            const requiredFiles = ['creds.json', 'pre-key-1.json', 'pre-key-2.json', 'pre-key-3.json', 'pre-key-4.json', 'pre-key-5.json'];
+            const requiredFiles = ['creds.json'];
             const hasRequiredFiles = requiredFiles.every(file => files.includes(file));
             
             if (!hasRequiredFiles) return false;
@@ -66,11 +66,13 @@ class SessionManager {
     // Clear session data
     async clearSession() {
         try {
-            const files = fs.readdirSync(this.sessionPath);
-            for (const file of files) {
-                fs.unlinkSync(path.join(this.sessionPath, file));
+            if (fs.existsSync(this.sessionPath)) {
+                const files = fs.readdirSync(this.sessionPath);
+                for (const file of files) {
+                    fs.unlinkSync(path.join(this.sessionPath, file));
+                }
+                fs.rmdirSync(this.sessionPath);
             }
-            fs.rmdirSync(this.sessionPath);
             return true;
         } catch (error) {
             console.error('Error clearing session:', error);
@@ -81,8 +83,9 @@ class SessionManager {
     // Get session info
     getSessionInfo() {
         try {
-            if (fs.existsSync(path.join(this.sessionPath, 'creds.json'))) {
-                const creds = JSON.parse(fs.readFileSync(path.join(this.sessionPath, 'creds.json'), 'utf-8'));
+            const credsPath = path.join(this.sessionPath, 'creds.json');
+            if (fs.existsSync(credsPath)) {
+                const creds = JSON.parse(fs.readFileSync(credsPath, 'utf-8'));
                 return {
                     phone: creds.me?.id?.replace(/:\d+@/, '@') || 'Unknown',
                     platform: creds.me?.platform || 'Unknown',
