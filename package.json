@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "clear-session": "rm -rf sessions"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.4.0",
