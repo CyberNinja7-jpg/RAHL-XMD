@@ -1,6 +1,7 @@
 const express = require('express');
 const NodeCache = require('node-cache');
 const SessionManager = require('./sessionManager');
+const { DisconnectReason } = require('@whiskeysockets/baileys');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
