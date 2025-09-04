@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: lord-rahl-bot
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: BOT_NAME
+        value: RAHL XMD
+      - key: ADMIN_NUMBER
+        value: 254112399557
+    plan: free
+    autoDeploy: true
