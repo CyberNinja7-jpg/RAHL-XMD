@@ -23,6 +23,7 @@ function ensureSessionsDir() {
 
 // Middleware
 app.use(express.json());
+app.use(express.static('public'));  // This serves your HTML interface
 
 // Routes
 app.get('/', (req, res) => {
@@ -108,7 +109,12 @@ async function initWhatsAppBot() {
                             (message.message.extendedTextMessage && message.message.extendedTextMessage.text) || 
                             '';
                 
-                if (text && text.startsWith('Lord Rahl')) {
+                if (!text) return;
+                
+                console.log(`Received message: ${text}`);
+                
+                // Check for pairing message
+                if (text.startsWith('Lord Rahl')) {
                     const code = text.replace('Lord Rahl', '').trim();
                     const codeData = pairingCodes.get(code);
                     
