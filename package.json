@@ -1,14 +1,39 @@
 {
   "name": "lord-rahl-whatsapp-bot",
   "version": "1.0.0",
-  "description": "WhatsApp bot with pairing system for Lord Rahl",
+  "description": "WhatsApp bot with pairing system for Lord Rahl - Master of Shadows",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "echo 'No build step required'",
-    "clear-session": "rm -rf sessions"
+    "build": "npm run create-dirs && echo 'Build completed'",
+    "create-dirs": "mkdir -p sessions/lord-rahl-bot && touch sessions/lord-rahl-bot/.gitkeep",
+    "clear-session": "rm -rf sessions/lord-rahl-bot/*.json && npm run create-dirs",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "test": "echo 'No tests specified' && exit 0",
+    "lint": "echo 'No linter configured'",
+    "prestart": "npm run create-dirs",
+    "postinstall": "echo 'Dependencies installed successfully'"
   },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "baileys",
+    "automation",
+    "lord-rahl",
+    "pairing-system",
+    "whatsapp-api"
+  ],
+  "author": "Lord Rahl",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CyberNinja7-jpg/RAHL-XMD.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CyberNinja7-jpg/RAHL-XMD/issues"
+  },
+  "homepage": "https://github.com/CyberNinja7-jpg/RAHL-XMD#readme",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.4.0",
     "express": "^4.18.2",
@@ -18,15 +43,13 @@
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "keywords": [
-    "whatsapp",
-    "bot",
-    "baileys",
-    "pairing"
-  ],
-  "author": "Lord Rahl",
-  "license": "MIT",
   "engines": {
-    "node": ">=16.0.0"
-  }
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ]
 }
