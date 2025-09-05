@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAHL XMD - WhatsApp Bot Pairing</title>
+    <title>Lord Rahl WhatsApp Bot - Pairing Interface</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -52,82 +52,19 @@
             font-style: italic;
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
+        .panel {
             background: #151925;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .stat-title {
-            font-size: 1rem;
-            color: #a29bfe;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #6c5ce7;
-        }
-        
-        .command-stats {
-            background: #151925;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .command-title {
-            font-size: 1.2rem;
-            color: #6c5ce7;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .command-list {
-            list-style-type: none;
-        }
-        
-        .command-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #252a3a;
-            display: flex;
-            align-items: center;
-        }
-        
-        .command-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .command-list i {
-            margin-right: 10px;
-            color: #6c5ce7;
-        }
-        
-        .pairing-section {
-            background: #151925;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
         
-        .section-title {
-            font-size: 1.5rem;
+        h2 {
             color: #6c5ce7;
             margin-bottom: 20px;
+            font-size: 1.8rem;
             text-align: center;
-            text-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
         }
         
         .form-group {
@@ -187,57 +124,26 @@
             margin-right: 8px;
         }
         
-        .commands-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .command-category {
-            background: #151925;
-            border-radius: 8px;
+        .instructions {
+            background: #252a3a;
+            border-left: 4px solid #6c5ce7;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 0 8px 8px 0;
+            margin: 25px 0;
         }
         
-        .category-title {
-            font-size: 1.2rem;
-            color: #6c5ce7;
+        .instructions h3 {
             margin-bottom: 15px;
-            text-align: center;
-            border-bottom: 1px solid #252a3a;
-            padding-bottom: 10px;
+            color: #6c5ce7;
         }
         
-        .command-item {
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
+        .instructions ol {
+            padding-left: 20px;
+            line-height: 1.6;
         }
         
-        .command-item i {
-            margin-right: 10px;
-            color: #a29bfe;
-            width: 20px;
-        }
-        
-        .owner-section {
-            background: #151925;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #5c6bc0;
-            font-size: 0.9rem;
-            padding: 20px;
-            border-top: 1px solid #252a3a;
-            width: 100%;
+        .instructions li {
+            margin-bottom: 10px;
         }
         
         .code-display {
@@ -262,15 +168,15 @@
             display: none;
         }
         
-        .status.pending {
-            background: rgba(241, 196, 15, 0.2);
-            color: #f1c40f;
-            display: block;
-        }
-        
         .status.connected {
             background: rgba(46, 204, 113, 0.2);
             color: #2ecc71;
+            display: block;
+        }
+        
+        .status.pending {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
             display: block;
         }
         
@@ -280,14 +186,30 @@
             display: block;
         }
         
-        @media (max-width: 768px) {
-            .stats-grid,
-            .commands-grid {
-                grid-template-columns: 1fr;
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #5c6bc0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .panel {
+                padding: 15px;
             }
             
             .logo {
-                font-size: 2.5rem;
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .code-display {
+                font-size: 1.8rem;
+                letter-spacing: 3px;
+                padding: 15px;
             }
         }
     </style>
@@ -296,39 +218,16 @@
     <div class="container">
         <header>
             <div class="logo">LORD RAHL</div>
-            <div class="tagline">Master of Shadows - WhatsApp Bot Empire</div>
-            <p>The shadows rise... Lord Rahl has awakened to command the digital realm. Deploy your dark legion across WhatsApp and rule with absolute power.</p>
+            <div class="tagline">WhatsApp Bot Pairing System</div>
         </header>
         
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-title">Active Bots</div>
-                <div class="stat-value">1</div>
-                <div class="stat-desc">Shadows prowling the realm</div>
+        <div class="panel">
+            <h2>Generate Pairing Code</h2>
+            
+            <div class="form-group">
+                <label for="user-id">Your User ID</label>
+                <input type="text" id="user-id" placeholder="Enter your unique identifier">
             </div>
-            <div class="stat-card">
-                <div class="stat-title">Total Users</div>
-                <div class="stat-value">0</div>
-                <div class="stat-desc">Mortals under dominion</div>
-            </div>
-        </div>
-        
-        <div class="command-stats">
-            <div class="command-title">Commands Executed</div>
-            <ul class="command-list">
-                <li><i class="fas fa-terminal"></i> Dark incantations cast: <strong>0</strong></li>
-                <li><i class="fas fa-clock"></i> Uptime: <strong>00:00:00</strong></li>
-                <li><i class="fas fa-hourglass"></i> Hours of unwavering vigil: <strong>0</strong></li>
-            </ul>
-        </div>
-        
-        <div class="pairing-section">
-            <h2 class="section-title">Pairing</h2>
-            <p style="text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-check-circle" style="color: #6c5ce7;"></i> 
-                <strong>WhatsApp Pairing Ritual</strong><br>
-                Bind your mortal device to the realm of Lord Rahl...
-            </p>
             
             <div class="form-group">
                 <label for="phone-number">Your Phone Number</label>
@@ -354,59 +253,41 @@
             </div>
         </div>
         
-        <h2 class="section-title">Dark Incantations (Commands)</h2>
-        
-        <div class="commands-grid">
-            <div class="command-category">
-                <h3 class="category-title">General Commands</h3>
-                <div class="command-item"><i class="fas fa-question"></i> help - View all commands</div>
-                <div class="command-item"><i class="fas fa-bell"></i> ping - Check bot response</div>
-                <div class="command-item"><i class="fas fa-crown"></i> owner - Show owner info</div>
-                <div class="command-item"><i class="fas fa-chart-bar"></i> status - Bot status</div>
-            </div>
-            
-            <div class="command-category">
-                <h3 class="category-title">Entertainment</h3>
-                <div class="command-item"><i class="fas fa-image"></i> sticker - Create sticker</div>
-                <div class="command-item"><i class="fas fa-laugh"></i> joke - Dark humor</div>
-                <div class="command-item"><i class="fas fa-quote-right"></i> quote - Mystical wisdom</div>
-                <div class="command-item"><i class="fas fa-photo-video"></i> meme - Generate meme</div>
-            </div>
-        </div>
-        
-        <div class="owner-section">
-            <h2 class="section-title">Owner Only</h2>
-            <div class="commands-grid">
-                <div class="command-item"><i class="fas fa-power-off"></i> .shutdown - Stop the bot</div>
-                <div class="command-item"><i class="fas fa-sync"></i> restart - Reboot system</div>
-                <div class="command-item"><i class="fas fa-code"></i> eval - Execute code</div>
-                <div class="command-item"><i class="fas fa-bullhorn"></i> broadcast - Mass message</div>
-            </div>
+        <div class="instructions">
+            <h3>How to Pair with RAHL XMD</h3>
+            <ol>
+                <li>Click the "Generate Pairing Code" button to create your unique 8-digit code</li>
+                <li>Open WhatsApp and send a message to <strong>+254112399557</strong> starting with "Lord Rahl" followed by your pairing code</li>
+                <li>Your message should look like: <code>Lord Rahl 12345678</code></li>
+                <li>Wait for the bot to confirm your pairing</li>
+                <li>Once confirmed, your session will be active and you can start using RAHL XMD</li>
+            </ol>
         </div>
     </div>
     
     <footer>
-        <p>X. Built with the power of shadows and ancient knowledge.</p>
-        <p>Lord Rahl Bot © 2024 : Rule the digital realm with absolute power</p>
+        <p>RAHL XMD WhatsApp Bot &copy; 2023. All rights reserved.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const generateBtn = document.getElementById('generate-btn');
             const pairingCodeDisplay = document.getElementById('pairing-code');
-            const phoneNumberInput = document.getElementById('phone-number');
             const statusPending = document.getElementById('status-pending');
             const statusConnected = document.getElementById('status-connected');
             const statusError = document.getElementById('status-error');
+            const userIdInput = document.getElementById('user-id');
+            const phoneNumberInput = document.getElementById('phone-number');
             
             // Hide all status messages initially
             [statusPending, statusConnected, statusError].forEach(el => el.style.display = 'none');
             
             generateBtn.addEventListener('click', function() {
+                const userId = userIdInput.value.trim();
                 const phoneNumber = phoneNumberInput.value.trim();
                 
                 if (!phoneNumber) {
-                    alert('Please enter your phone number first');
+                    alert('Please enter a phone number first');
                     return;
                 }
                 
@@ -421,17 +302,20 @@
                 statusError.style.display = 'none';
                 
                 // Generate pairing code via API
-                generatePairingCode(phoneNumber);
+                generatePairingCode(userId, phoneNumber);
             });
             
-            async function generatePairingCode(phoneNumber) {
+            async function generatePairingCode(userId, phoneNumber) {
                 try {
                     const response = await fetch('/generate-code', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ phoneNumber }),
+                        body: JSON.stringify({ 
+                            userId: userId || 'user',
+                            phoneNumber 
+                        }),
                     });
                     
                     if (!response.ok) {
@@ -488,494 +372,4 @@
         });
     </script>
 </body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAHL XMD - WhatsApp Bot Pairing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0c0f17 0%, #05070c 100%);
-            color: #e6e6e6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            width: 100%;
-            border-bottom: 2px solid #6c5ce7;
-        }
-        
-        .logo {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #6c5ce7;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(108, 92, 231, 0.7);
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            color: #a29bfe;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: #151925;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .stat-title {
-            font-size: 1rem;
-            color: #a29bfe;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #6c5ce7;
-        }
-        
-        .command-stats {
-            background: #151925;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .command-title {
-            font-size: 1.2rem;
-            color: #6c5ce7;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .command-list {
-            list-style-type: none;
-        }
-        
-        .command-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #252a3a;
-            display: flex;
-            align-items: center;
-        }
-        
-        .command-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .command-list i {
-            margin-right: 10px;
-            color: #6c5ce7;
-        }
-        
-        .pairing-section {
-            background: #151925;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            color: #6c5ce7;
-            margin-bottom: 20px;
-            text-align: center;
-            text-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #d8d8d8;
-        }
-        
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 2px solid #3e445b;
-            background: #252a3a;
-            color: #fff;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="text"]:focus {
-            border-color: #6c5ce7;
-            outline: none;
-        }
-        
-        .btn {
-            background: linear-gradient(to right, #6c5ce7, #8c7ae6);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-        
-        .btn:hover {
-            background: linear-gradient(to right, #5d4ae1, #7c6ae6);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .commands-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .command-category {
-            background: #151925;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .category-title {
-            font-size: 1.2rem;
-            color: #6c5ce7;
-            margin-bottom: 15px;
-            text-align: center;
-            border-bottom: 1px solid #252a3a;
-            padding-bottom: 10px;
-        }
-        
-        .command-item {
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .command-item i {
-            margin-right: 10px;
-            color: #a29bfe;
-            width: 20px;
-        }
-        
-        .owner-section {
-            background: #151925;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #5c6bc0;
-            font-size: 0.9rem;
-            padding: 20px;
-            border-top: 1px solid #252a3a;
-            width: 100%;
-        }
-        
-        .code-display {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            letter-spacing: 5px;
-            color: #6c5ce7;
-            background: #252a3a;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
-            display: none;
-        }
-        
-        .status {
-            text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: none;
-        }
-        
-        .status.pending {
-            background: rgba(241, 196, 15, 0.2);
-            color: #f1c40f;
-            display: block;
-        }
-        
-        .status.connected {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-            display: block;
-        }
-        
-        .status.error {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            display: block;
-        }
-        
-        @media (max-width: 768px) {
-            .stats-grid,
-            .commands-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .logo {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo">LORD RAHL</div>
-            <div class="tagline">Master of Shadows - WhatsApp Bot Empire</div>
-            <p>The shadows rise... Lord Rahl has awakened to command the digital realm. Deploy your dark legion across WhatsApp and rule with absolute power.</p>
-        </header>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-title">Active Bots</div>
-                <div class="stat-value">1</div>
-                <div class="stat-desc">Shadows prowling the realm</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">Total Users</div>
-                <div class="stat-value">0</div>
-                <div class="stat-desc">Mortals under dominion</div>
-            </div>
-        </div>
-        
-        <div class="command-stats">
-            <div class="command-title">Commands Executed</div>
-            <ul class="command-list">
-                <li><i class="fas fa-terminal"></i> Dark incantations cast: <strong>0</strong></li>
-                <li><i class="fas fa-clock"></i> Uptime: <strong>00:00:00</strong></li>
-                <li><i class="fas fa-hourglass"></i> Hours of unwavering vigil: <strong>0</strong></li>
-            </ul>
-        </div>
-        
-        <div class="pairing-section">
-            <h2 class="section-title">Pairing</h2>
-            <p style="text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-check-circle" style="color: #6c5ce7;"></i> 
-                <strong>WhatsApp Pairing Ritual</strong><br>
-                Bind your mortal device to the realm of Lord Rahl...
-            </p>
-            
-            <div class="form-group">
-                <label for="phone-number">Your Phone Number</label>
-                <input type="text" id="phone-number" placeholder="e.g., +254112399557 (Include country code)">
-            </div>
-            
-            <button class="btn" id="generate-btn">
-                <i class="fas fa-qrcode"></i> Generate Pairing Code
-            </button>
-            
-            <div class="code-display" id="pairing-code"></div>
-            
-            <div class="status pending" id="status-pending">
-                <i class="fas fa-clock"></i> Waiting for pairing confirmation...
-            </div>
-            
-            <div class="status connected" id="status-connected">
-                <i class="fas fa-check-circle"></i> Successfully paired with RAHL XMD!
-            </div>
-            
-            <div class="status error" id="status-error">
-                <i class="fas fa-exclamation-circle"></i> Pairing failed. Please try again.
-            </div>
-        </div>
-        
-        <h2 class="section-title">Dark Incantations (Commands)</h2>
-        
-        <div class="commands-grid">
-            <div class="command-category">
-                <h3 class="category-title">General Commands</h3>
-                <div class="command-item"><i class="fas fa-question"></i> help - View all commands</div>
-                <div class="command-item"><i class="fas fa-bell"></i> ping - Check bot response</div>
-                <div class="command-item"><i class="fas fa-crown"></i> owner - Show owner info</div>
-                <div class="command-item"><i class="fas fa-chart-bar"></i> status - Bot status</div>
-            </div>
-            
-            <div class="command-category">
-                <h3 class="category-title">Entertainment</h3>
-                <div class="command-item"><i class="fas fa-image"></i> sticker - Create sticker</div>
-                <div class="command-item"><i class="fas fa-laugh"></i> joke - Dark humor</div>
-                <div class="command-item"><i class="fas fa-quote-right"></i> quote - Mystical wisdom</div>
-                <div class="command-item"><i class="fas fa-photo-video"></i> meme - Generate meme</div>
-            </div>
-        </div>
-        
-        <div class="owner-section">
-            <h2 class="section-title">Owner Only</h2>
-            <div class="commands-grid">
-                <div class="command-item"><i class="fas fa-power-off"></i> .shutdown - Stop the bot</div>
-                <div class="command-item"><i class="fas fa-sync"></i> restart - Reboot system</div>
-                <div class="command-item"><i class="fas fa-code"></i> eval - Execute code</div>
-                <div class="command-item"><i class="fas fa-bullhorn"></i> broadcast - Mass message</div>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        <p>X. Built with the power of shadows and ancient knowledge.</p>
-        <p>Lord Rahl Bot © 2024 : Rule the digital realm with absolute power</p>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const generateBtn = document.getElementById('generate-btn');
-            const pairingCodeDisplay = document.getElementById('pairing-code');
-            const phoneNumberInput = document.getElementById('phone-number');
-            const statusPending = document.getElementById('status-pending');
-            const statusConnected = document.getElementById('status-connected');
-            const statusError = document.getElementById('status-error');
-            
-            // Hide all status messages initially
-            [statusPending, statusConnected, statusError].forEach(el => el.style.display = 'none');
-            
-            generateBtn.addEventListener('click', function() {
-                const phoneNumber = phoneNumberInput.value.trim();
-                
-                if (!phoneNumber) {
-                    alert('Please enter your phone number first');
-                    return;
-                }
-                
-                if (!phoneNumber.startsWith('+')) {
-                    alert('Please include country code (e.g., +254 for Kenya)');
-                    return;
-                }
-                
-                // Show pending status
-                statusPending.style.display = 'block';
-                statusConnected.style.display = 'none';
-                statusError.style.display = 'none';
-                
-                // Generate pairing code via API
-                generatePairingCode(phoneNumber);
-            });
-            
-            async function generatePairingCode(phoneNumber) {
-                try {
-                    const response = await fetch('/generate-code', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ phoneNumber }),
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to generate pairing code');
-                    }
-                    
-                    const data = await response.json();
-                    
-                    // Display the code
-                    pairingCodeDisplay.textContent = data.code;
-                    pairingCodeDisplay.style.display = 'block';
-                    
-                    // Start checking pairing status
-                    checkPairingStatus(data.code);
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    statusPending.style.display = 'none';
-                    statusError.style.display = 'block';
-                    statusError.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${error.message}`;
-                }
-            }
-            
-            async function checkPairingStatus(code) {
-                try {
-                    const response = await fetch(`/pairing-status/${code}`);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to check pairing status');
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (data.status === 'completed') {
-                        // Pairing completed successfully
-                        statusPending.style.display = 'none';
-                        statusConnected.style.display = 'block';
-                    } else if (data.status === 'pending') {
-                        // Still pending, check again in 3 seconds
-                        setTimeout(() => checkPairingStatus(code), 3000);
-                    } else {
-                        // Invalid or expired code
-                        statusPending.style.display = 'none';
-                        statusError.style.display = 'block';
-                        statusError.innerHTML = '<i class="fas fa-exclamation-circle"></i> Pairing code expired. Please generate a new one.';
-                    }
-                    
-                } catch (error) {
-                    console.error('Error checking pairing status:', error);
-                    // Continue checking even if there's an error
-                    setTimeout(() => checkPairingStatus(code), 3000);
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+    </html>
