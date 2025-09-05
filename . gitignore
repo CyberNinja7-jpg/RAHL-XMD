@@ -1,6 +1,10 @@
-# Session data - CRITICAL to exclude
-sessions/
-*.session.json
+# Session files - ignore all actual session data
+sessions/**/*.json
+sessions/**/*.txt
+sessions/**/*.data
+
+# But keep the directory structure by allowing .gitkeep
+!sessions/**/.gitkeep
 
 # Environment variables
 .env
