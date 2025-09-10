@@ -5,47 +5,54 @@ const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// To track which number requested pairing
-let pendingPairingNumber = null;
 let sock = null;
-const ADMIN_NUMBER = '254112399557@s.whatsapp.net';
+let pendingPairingNumber = null;
+let pairingCodeCurrent = null;
 
-// Middleware
 app.use(express.json());
 app.use(express.static('public'));
 
-// Home route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Generate WhatsApp pairing code and send to phone number
+// API to request pairing code
 app.post('/api/generate-pairing-code', async (req, res) => {
     const { phoneNumber } = req.body;
     if (!phoneNumber) {
         return res.status(400).json({ error: 'Phone number is required' });
     }
 
-    // Save the number requesting pairing
     pendingPairingNumber = phoneNumber;
+    pairingCodeCurrent = null; // Reset
 
-    // If bot not running, start it
     if (!sock) {
         await initWhatsAppBot();
-        return res.json({ success: true, message: 'Bot initializing. You will receive a WhatsApp message with the pairing code soon.' });
+    }
+
+    // Wait for pairing code to be generated
+    let tries = 0;
+    while (!pairingCodeCurrent && tries < 20) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        tries++;
+    }
+
+    if (pairingCodeCurrent) {
+        res.json({ success: true, code: pairingCodeCurrent });
+        // pairingCodeCurrent is reset on connection
     } else {
-        return res.json({ success: true, message: 'Bot already running. If not paired, try restarting the bot.' });
+        res.status(500).json({ error: 'Failed to generate pairing code.' });
     }
 });
 
-// Helper: send WhatsApp message
+// Helper: Send WhatsApp message
 async function sendMessage(jid, text) {
     if (sock) {
         await sock.sendMessage(jid, { text });
     }
 }
 
-// Initialize WhatsApp bot and handle pairing
+// WhatsApp bot init
 async function initWhatsAppBot() {
     const { state, saveCreds } = await useMultiFileAuthState('sessions');
     const { version } = await fetchLatestBaileysVersion();
@@ -62,21 +69,19 @@ async function initWhatsAppBot() {
     sock.ev.on('connection.update', async (update) => {
         const { connection, pairingCode } = update;
 
-        // When Baileys emits a pairingCode, send it to the user
-        if (pairingCode && pendingPairingNumber) {
-            const jid = `${pendingPairingNumber}@s.whatsapp.net`;
-            await sendMessage(jid, `Your WhatsApp pairing code: ${pairingCode}\nGo to WhatsApp > Linked Devices > Link a Device > Paste this code.`);
-            console.log(`Pairing code sent to ${jid}: ${pairingCode}`);
+        if (pairingCode) {
+            pairingCodeCurrent = pairingCode;
+            console.log(`Pairing code generated: ${pairingCode}`);
         }
 
         if (connection === 'open') {
-            // Paired successfully!
+            // Paired successfully; send session credentials to user
             if (pendingPairingNumber) {
                 const jid = `${pendingPairingNumber}@s.whatsapp.net`;
-                await sendMessage(jid, `✅ Device paired! Here are your session credentials (keep safe):\n${JSON.stringify(sock.authState.creds)}`);
-                pendingPairingNumber = null; // Reset after sending
+                await sendMessage(jid, `✅ Device linked! Here is your session id: \n${JSON.stringify(sock.authState.creds)}`);
+                pendingPairingNumber = null;
+                pairingCodeCurrent = null;
             }
-            await sendMessage(ADMIN_NUMBER, '✅ WhatsApp bot paired and connected!');
         }
     });
 
